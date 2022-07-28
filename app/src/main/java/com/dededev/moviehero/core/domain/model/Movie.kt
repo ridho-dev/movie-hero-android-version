@@ -15,7 +15,7 @@ data class Movie(
     val backdropPath: String,
     val releaseDate: String,
     val popularity: Double,
-    val voteAverage: Int,
+    val voteAverage: Double,
     val id: Int,
     val adult: Boolean,
     val voteCount: Int

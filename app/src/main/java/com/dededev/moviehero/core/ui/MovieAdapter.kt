@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dededev.moviehero.R
-import com.dededev.moviehero.core.data.source.remote.response.ResultsItem
+import com.dededev.moviehero.core.domain.model.Movie
 import com.dededev.moviehero.databinding.MovieItemBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
-    private var listData = ArrayList<ResultsItem>()
+    private var listData = ArrayList<Movie>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(newData: List<ResultsItem>?) {
+    fun setData(newData: List<Movie>?) {
         if (newData == null) return
         listData.clear()
         listData.addAll(newData)
@@ -31,7 +31,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding = MovieItemBinding.bind(itemView)
-        fun bind(data: ResultsItem) {
+        fun bind(data: Movie) {
             with(binding) {
                 tvMovieItem.text = data.title
             }

@@ -3,7 +3,7 @@ package com.dededev.moviehero.core.data.source.remote
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dededev.moviehero.core.data.Resource
+import com.dededev.moviehero.core.data.source.remote.network.ApiResponse
 import com.dededev.moviehero.core.data.source.remote.network.ApiService
 import com.dededev.moviehero.core.data.source.remote.response.MovieResponse
 import com.dededev.moviehero.core.data.source.remote.response.ResultsItem
@@ -22,8 +22,8 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             }
     }
 
-    fun getPopularMovies(): LiveData<Resource<List<ResultsItem>>> {
-        val resultData = MutableLiveData<Resource<List<ResultsItem>>>()
+    fun getPopularMovies(): LiveData<ApiResponse<List<ResultsItem>>> {
+        val resultData = MutableLiveData<ApiResponse<List<ResultsItem>>>()
         val client = apiService.getPopularMovies()
 
         client.enqueue(object : Callback<MovieResponse> {
@@ -31,13 +31,12 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
                 val dataArray = response.body()?.results
                 Log.d("TAG", "onResponse: $dataArray")
                 resultData.value =
-                    if (dataArray != null) Resource.Success(dataArray)
-                    else Resource.Error("")
+                    if (dataArray != null) ApiResponse.Success(dataArray)
+                    else ApiResponse.Error("")
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                resultData.value = Resource.Error(t.message.toString())
-                Log.d("TAG", "onResponse: ${t.message.toString()}")
+                resultData.value = ApiResponse.Error(t.message.toString())
             }
         })
         return resultData
