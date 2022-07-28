@@ -11,6 +11,7 @@ import com.dededev.moviehero.databinding.MovieItemBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
     private var listData = ArrayList<Movie>()
+    var onItemClick: ((Movie) -> Unit)? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(newData: List<Movie>?) {
@@ -29,11 +30,17 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
     override fun getItemCount(): Int = listData.size
 
-    class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding = MovieItemBinding.bind(itemView)
         fun bind(data: Movie) {
             with(binding) {
                 tvMovieItem.text = data.title
+            }
+        }
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(listData[adapterPosition])
             }
         }
     }

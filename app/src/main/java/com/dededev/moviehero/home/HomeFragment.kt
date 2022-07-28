@@ -1,5 +1,6 @@
 package com.dededev.moviehero.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.dededev.moviehero.core.data.Resource
 import com.dededev.moviehero.core.ui.MovieAdapter
 import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentHomeBinding
+import com.dededev.moviehero.detail.DetailActivity
 
 class HomeFragment : Fragment() {
 
@@ -33,6 +35,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             val movieAdapter = MovieAdapter()
+            movieAdapter.onItemClick = { selectedMovie ->
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
+                startActivity(intent)
+            }
 
             val factory = ViewModelFactory.getInstance(requireActivity())
             homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]

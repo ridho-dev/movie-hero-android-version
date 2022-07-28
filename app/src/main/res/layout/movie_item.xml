@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:text="Empty"
             app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="70dp"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
