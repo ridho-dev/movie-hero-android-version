@@ -1,13 +1,11 @@
 package com.dededev.moviehero.favorite
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dededev.moviehero.core.domain.model.Movie
+import com.dededev.moviehero.core.domain.usecase.MovieUseCase
 
-class FavoriteViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is favorite Fragment"
-    }
-    val text: LiveData<String> = _text
+class FavoriteViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
+    fun getFavoriteMovies(): LiveData<List<Movie>> =
+        movieUseCase.getFavoriteMovies()
 }

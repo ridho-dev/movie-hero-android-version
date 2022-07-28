@@ -11,4 +11,5 @@
     <string name="menu_favorite">Favorite</string>
     <string name="menu_search">Search</string>
     <string name="something_wrong">Oops… Something went wrong</string>
+    <string name="no_favorite">No favorite movie, add some!</string>
 </resources>

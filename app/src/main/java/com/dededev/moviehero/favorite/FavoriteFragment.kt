@@ -1,13 +1,17 @@
 package com.dededev.moviehero.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dededev.moviehero.core.ui.MovieAdapter
+import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentFavoriteBinding
+import com.dededev.moviehero.detail.DetailActivity
 
 class FavoriteFragment : Fragment() {
 
@@ -22,16 +26,34 @@ class FavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val favoriteViewModel = ViewModelProvider(this)[FavoriteViewModel::class.java]
-
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textGallery
-        favoriteViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (activity != null) {
+            val movieAdapter = MovieAdapter()
+            movieAdapter.onItemClick = { selectedMovie ->
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
+                startActivity(intent)
+            }
+
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
+
+            favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner) { movie ->
+                movieAdapter.setData(movie)
+                binding.viewEmpty.root.visibility = if (movie.isNotEmpty()) View.GONE else View.VISIBLE
+            }
+
+            with(binding.rvMovie) {
+                layoutManager = LinearLayoutManager(context)
+                setHasFixedSize(true)
+                adapter = movieAdapter
+            }
         }
-        return root
     }
 
     override fun onDestroyView() {
