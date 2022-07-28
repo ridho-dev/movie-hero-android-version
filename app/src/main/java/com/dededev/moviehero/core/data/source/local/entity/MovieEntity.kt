@@ -47,5 +47,8 @@ data class MovieEntity (
     val adult: Boolean,
 
     @ColumnInfo(name = "voteCount")
-    val voteCount: Int
-)
+    val voteCount: Int,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean
+    )

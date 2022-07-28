@@ -37,7 +37,7 @@ class MovieRepository(
                 }
             }
 
-            override fun shouldFetch(data: List<Movie>?): Boolean = false
+            override fun shouldFetch(data: List<Movie>?): Boolean = true
 
             override fun createCall(): LiveData<ApiResponse<List<ResultsItem>>> =
                 remoteDataSource.getPopularMovies()
@@ -48,4 +48,15 @@ class MovieRepository(
             }
 
         }.asLiveData()
+
+    override fun getFavoriteMovies(): LiveData<List<Movie>> {
+        return Transformations.map(localDataSource.getFavoriteMovies()) {
+            DataMapper.mapEntitiesToDomain(it)
+        }
+    }
+
+    override fun setFavoriteMovie(movie: Movie, newState: Boolean) {
+        val movieEntity = DataMapper.mapDomainToEntity(movie)
+        appExecutors.diskIO().execute { localDataSource.setFavoriteMovie(movieEntity, newState) }
+    }
 }

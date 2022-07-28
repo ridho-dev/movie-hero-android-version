@@ -22,7 +22,8 @@ object DataMapper {
                 popularity = it.popularity,
                 voteAverage = it.voteAverage,
                 adult = it.adult,
-                voteCount = it.voteCount
+                voteCount = it.voteCount,
+                isFavorite = false
             )
             movieList.add(movie)
         }
@@ -45,7 +46,8 @@ object DataMapper {
                 popularity = it.popularity,
                 voteAverage = it.voteAverage,
                 adult = it.adult,
-                voteCount = it.voteCount
+                voteCount = it.voteCount,
+                isFavorite = it.isFavorite
             )
         }
 
@@ -63,7 +65,8 @@ object DataMapper {
         popularity = input.popularity,
         voteAverage = input.voteAverage,
         adult = input.adult,
-        voteCount = input.voteCount
+        voteCount = input.voteCount,
+        isFavorite = input.isFavorite
     )
 
 }

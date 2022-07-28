@@ -60,8 +60,10 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val appExec
                     }
                 is ApiResponse.Error -> {
                     onFetchFailed()
-                    result.addSource(dbSource) { newData ->
-                        result.value = Resource.Error(response.errorMessage, newData)
+                    appExecutors.mainThread().execute {
+                        result.addSource(loadFromDB()) { newData ->
+                            result.value = Resource.Success(newData)
+                        }
                     }
                 }
 
