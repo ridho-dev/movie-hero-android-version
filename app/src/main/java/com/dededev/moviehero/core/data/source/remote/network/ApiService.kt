@@ -9,8 +9,14 @@ object ApiKey {
     const val api_key = "3a9feca43bc494bfad1e89aa528c3ebd"
 }
 interface ApiService {
-    @GET("popular")
+    @GET("movie/popular")
     fun getPopularMovies(
         @Query("api_key") api_key: String = ApiKey.api_key
+    ): Call<MovieResponse>
+
+    @GET("search/movie")
+    fun searchMovie(
+        @Query("query") query: String,
+        @Query("api_key") api_key: String = ApiKey.api_key,
     ): Call<MovieResponse>
 }

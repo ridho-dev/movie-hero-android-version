@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.dededev.moviehero.core.data.source.local.entity.MovieEntity
-import com.dededev.moviehero.core.utils.IntegerListConverters
+import com.dededev.moviehero.core.data.source.local.entity.SearchedMovieEntity
 
-@Database(entities = [MovieEntity::class], version = 1)
-@TypeConverters(IntegerListConverters::class)
+@Database(entities = [MovieEntity::class, SearchedMovieEntity::class], version = 1)
 abstract class MovieDatabase: RoomDatabase() {
     abstract fun movieDao(): MovieDao
 

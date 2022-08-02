@@ -3,8 +3,8 @@ package com.dededev.moviehero.core.data.source.local.entity
 import androidx.annotation.NonNull
 import androidx.room.*
 
-@Entity(tableName = "movie")
-data class MovieEntity (
+@Entity(tableName = "searched_movie")
+data class SearchedMovieEntity (
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
@@ -48,4 +48,4 @@ data class MovieEntity (
 
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean
-    )
+)

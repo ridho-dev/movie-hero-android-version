@@ -1,6 +1,5 @@
 package com.dededev.moviehero.core.data.source.remote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dededev.moviehero.core.data.source.remote.network.ApiResponse
@@ -29,7 +28,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         client.enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 val dataArray = response.body()?.results
-                Log.d("TAG", "onResponse: $dataArray")
+
                 resultData.value =
                     if (dataArray != null) ApiResponse.Success(dataArray)
                     else ApiResponse.Error("")
@@ -41,4 +40,25 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         })
         return resultData
     }
+
+    fun searchMovies(query: String): LiveData<ApiResponse<List<ResultsItem>>> {
+        val resultData = MutableLiveData<ApiResponse<List<ResultsItem>>>()
+        val client = apiService.searchMovie(query)
+
+        client.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                val dataArray = response.body()?.results
+                resultData.value = if (dataArray != null) ApiResponse.Success(dataArray)
+                else ApiResponse.Error("")
+
+            }
+
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                resultData.value = ApiResponse.Error(t.message.toString())
+            }
+        })
+        return resultData
+    }
+
+
 }

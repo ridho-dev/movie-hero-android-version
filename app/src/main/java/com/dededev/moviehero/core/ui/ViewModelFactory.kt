@@ -8,6 +8,7 @@ import com.dededev.moviehero.core.domain.usecase.MovieUseCase
 import com.dededev.moviehero.detail.DetailViewModel
 import com.dededev.moviehero.favorite.FavoriteViewModel
 import com.dededev.moviehero.home.HomeViewModel
+import com.dededev.moviehero.search.SearchViewModel
 
 class ViewModelFactory private constructor(private val movieUseCase: MovieUseCase)
     : ViewModelProvider.NewInstanceFactory() {
@@ -31,6 +32,9 @@ class ViewModelFactory private constructor(private val movieUseCase: MovieUseCas
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(movieUseCase) as T
+            }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(movieUseCase) as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(movieUseCase) as T

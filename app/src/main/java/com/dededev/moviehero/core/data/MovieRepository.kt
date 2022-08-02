@@ -46,6 +46,25 @@ class MovieRepository(
                 val movieList = DataMapper.mapResponsesToEntities(data)
                 localDataSource.insertPopularMovies(movieList)
             }
+        }.asLiveData()
+
+    override fun searchMovie(query: String): LiveData<Resource<List<Movie>>> =
+        object : NetworkBoundResource<List<Movie>, List<ResultsItem>>(appExecutors) {
+            override fun loadFromDB(): LiveData<List<Movie>> {
+                return Transformations.map(localDataSource.searchMovie(query)) {
+                    DataMapper.mapSearchEntitiesToDomain(it)
+                }
+            }
+
+            override fun shouldFetch(data: List<Movie>?): Boolean = true
+
+            override fun createCall(): LiveData<ApiResponse<List<ResultsItem>>> =
+                remoteDataSource.searchMovies(query)
+
+            override fun saveCallResult(data: List<ResultsItem>) {
+                val movieList = DataMapper.mapResponsesToSearchedEntities(data)
+                localDataSource.insertSearchedMovies(movieList)
+            }
 
         }.asLiveData()
 

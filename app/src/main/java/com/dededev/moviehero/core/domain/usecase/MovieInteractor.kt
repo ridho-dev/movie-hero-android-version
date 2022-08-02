@@ -9,6 +9,9 @@ class MovieInteractor(private val movieRepository: IMovieRepository): MovieUseCa
     override fun getPopularMovies(): LiveData<Resource<List<Movie>>> =
         movieRepository.getPopularMovies()
 
+    override fun searchMovie(query: String): LiveData<Resource<List<Movie>>> =
+        movieRepository.searchMovie(query)
+
     override fun getFavoriteMovies(): LiveData<List<Movie>> =
         movieRepository.getFavoriteMovies()
 

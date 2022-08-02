@@ -1,6 +1,7 @@
 package com.dededev.moviehero.core.utils
 
 import com.dededev.moviehero.core.data.source.local.entity.MovieEntity
+import com.dededev.moviehero.core.data.source.local.entity.SearchedMovieEntity
 import com.dededev.moviehero.core.data.source.remote.response.ResultsItem
 import com.dededev.moviehero.core.domain.model.Movie
 
@@ -15,7 +16,30 @@ object DataMapper {
                 originalTitle = it.originalTitle,
                 video = it.video,
                 title = it.title,
-                genreIds = it.genreIds,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                releaseDate = it.releaseDate,
+                popularity = it.popularity,
+                voteAverage = it.voteAverage,
+                adult = it.adult,
+                voteCount = it.voteCount,
+                isFavorite = false
+            )
+            movieList.add(movie)
+        }
+        return movieList
+    }
+
+    fun mapResponsesToSearchedEntities(input: List<ResultsItem>): List<SearchedMovieEntity> {
+        val movieList = ArrayList<SearchedMovieEntity>()
+        input.map {
+            val movie= SearchedMovieEntity(
+                id = it.id,
+                overview = it.overview,
+                originalLanguage = it.originalLanguage,
+                originalTitle = it.originalTitle,
+                video = it.video,
+                title = it.title,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
                 releaseDate = it.releaseDate,
@@ -39,7 +63,6 @@ object DataMapper {
                 originalTitle = it.originalTitle,
                 video = it.video,
                 title = it.title,
-                genreIds = it.genreIds,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
                 releaseDate = it.releaseDate,
@@ -51,6 +74,27 @@ object DataMapper {
             )
         }
 
+    fun mapSearchEntitiesToDomain(input: List<SearchedMovieEntity>): List<Movie> =
+        input.map {
+            Movie(
+                id = it.id,
+                overview = it.overview,
+                originalLanguage = it.originalLanguage,
+                originalTitle = it.originalTitle,
+                video = it.video,
+                title = it.title,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                releaseDate = it.releaseDate,
+                popularity = it.popularity,
+                voteAverage = it.voteAverage,
+                adult = it.adult,
+                voteCount = it.voteCount,
+                isFavorite = it.isFavorite
+            )
+        }
+
+
     fun mapDomainToEntity(input: Movie) = MovieEntity(
         id = input.id,
         overview = input.overview,
@@ -58,7 +102,6 @@ object DataMapper {
         originalTitle = input.originalTitle,
         video = input.video,
         title = input.title,
-        genreIds = input.genreIds,
         posterPath = input.posterPath,
         backdropPath = input.backdropPath,
         releaseDate = input.releaseDate,
