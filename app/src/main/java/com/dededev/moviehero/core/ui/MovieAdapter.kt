@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dededev.moviehero.R
 import com.dededev.moviehero.core.domain.model.Movie
+import com.dededev.moviehero.core.utils.Credentials
 import com.dededev.moviehero.databinding.MovieItemBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
@@ -34,7 +37,13 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
         private val binding = MovieItemBinding.bind(itemView)
         fun bind(data: Movie) {
             with(binding) {
-                tvMovieItem.text = data.title
+                Glide.with(itemView.context)
+                    .load(Credentials.BASE_IMAGE_URL + data.posterPath)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(ivMovieImage)
+                tvMovieItemDate.text = data.releaseDate
+                tvMovieItemRate.text = data.voteAverage.toString()
+                tvMovieItemTitle.text = data.title
             }
         }
 
