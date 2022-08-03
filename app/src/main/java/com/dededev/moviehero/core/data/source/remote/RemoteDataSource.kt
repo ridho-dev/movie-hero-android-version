@@ -41,7 +41,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         }.flowOn(Dispatchers.IO)
     }
 
-    fun searchMovies(query: String): Flow<ApiResponse<List<ResultsItem>>> {
+    suspend fun searchMovies(query: String): Flow<ApiResponse<List<ResultsItem>>> {
         return flow {
             try {
                 val response = apiService.searchMovie(query)

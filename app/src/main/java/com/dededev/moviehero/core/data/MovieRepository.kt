@@ -30,7 +30,7 @@ class MovieRepository(
     }
 
     override fun getPopularMovies(): Flow<Resource<List<Movie>>> =
-        object : NetworkBoundResource<List<Movie>, List<ResultsItem>>(appExecutors) {
+        object : NetworkBoundResource<List<Movie>, List<ResultsItem>>() {
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.getPopularMovies().map {
                     DataMapper.mapEntitiesToDomain(it)
@@ -50,7 +50,7 @@ class MovieRepository(
         }.asFlow()
 
     override fun searchMovie(query: String): Flow<Resource<List<Movie>>> =
-        object : NetworkBoundResource<List<Movie>, List<ResultsItem>>(appExecutors) {
+        object : NetworkBoundResource<List<Movie>, List<ResultsItem>>() {
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.searchMovie(query).map {
                     DataMapper.mapSearchEntitiesToDomain(it)
@@ -67,7 +67,6 @@ class MovieRepository(
                 val movieList = DataMapper.mapResponsesToSearchedEntities(data)
                 localDataSource.insertSearchedMovies(movieList)
             }
-
         }.asFlow()
 
     override fun getFavoriteMovies(): Flow<List<Movie>> {

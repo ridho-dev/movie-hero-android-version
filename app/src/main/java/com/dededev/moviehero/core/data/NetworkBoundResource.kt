@@ -1,10 +1,9 @@
 package com.dededev.moviehero.core.data
 
 import com.dededev.moviehero.core.data.source.remote.network.ApiResponse
-import com.dededev.moviehero.core.utils.AppExecutors
 import kotlinx.coroutines.flow.*
 
-abstract class NetworkBoundResource<ResultType, RequestType>(private val appExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType> {
     private var result: Flow<Resource<ResultType>> = flow {
         emit(Resource.Loading())
         val dbSource = loadFromDB().first()

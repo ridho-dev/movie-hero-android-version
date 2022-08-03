@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
+import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dededev.moviehero.R
@@ -17,6 +17,7 @@ import com.dededev.moviehero.detail.DetailActivity
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val searchView = binding.searchView
-        val movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter()
         movieAdapter.onItemClick = { selectedMovie ->
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
