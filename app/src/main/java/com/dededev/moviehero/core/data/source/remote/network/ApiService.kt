@@ -10,13 +10,13 @@ object ApiKey {
 }
 interface ApiService {
     @GET("movie/popular")
-    fun getPopularMovies(
+    suspend fun getPopularMovies(
         @Query("api_key") api_key: String = ApiKey.api_key
-    ): Call<MovieResponse>
+    ): MovieResponse
 
     @GET("search/movie")
-    fun searchMovie(
+    suspend fun searchMovie(
         @Query("query") query: String,
         @Query("api_key") api_key: String = ApiKey.api_key,
-    ): Call<MovieResponse>
+    ): MovieResponse
 }

@@ -6,6 +6,10 @@ import com.dededev.moviehero.core.data.source.remote.network.ApiResponse
 import com.dededev.moviehero.core.data.source.remote.network.ApiService
 import com.dededev.moviehero.core.data.source.remote.response.MovieResponse
 import com.dededev.moviehero.core.data.source.remote.response.ResultsItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,43 +25,36 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             }
     }
 
-    fun getPopularMovies(): LiveData<ApiResponse<List<ResultsItem>>> {
-        val resultData = MutableLiveData<ApiResponse<List<ResultsItem>>>()
-        val client = apiService.getPopularMovies()
-
-        client.enqueue(object : Callback<MovieResponse> {
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                val dataArray = response.body()?.results
-
-                resultData.value =
-                    if (dataArray != null) ApiResponse.Success(dataArray)
-                    else ApiResponse.Error("")
+    suspend fun getPopularMovies(): Flow<ApiResponse<List<ResultsItem>>> {
+        return flow {
+            try {
+                val response = apiService.getPopularMovies()
+                val dataArray = response.results
+                if (dataArray.isNotEmpty()) {
+                    emit(ApiResponse.Success(dataArray))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
             }
-
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-            }
-        })
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 
-    fun searchMovies(query: String): LiveData<ApiResponse<List<ResultsItem>>> {
-        val resultData = MutableLiveData<ApiResponse<List<ResultsItem>>>()
-        val client = apiService.searchMovie(query)
-
-        client.enqueue(object : Callback<MovieResponse> {
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                val dataArray = response.body()?.results
-                resultData.value = if (dataArray != null) ApiResponse.Success(dataArray)
-                else ApiResponse.Error("")
-
+    fun searchMovies(query: String): Flow<ApiResponse<List<ResultsItem>>> {
+        return flow {
+            try {
+                val response = apiService.searchMovie(query)
+                val resultData = response.results
+                if (resultData.isNotEmpty()) {
+                    emit(ApiResponse.Success(resultData))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
             }
-
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-            }
-        })
-        return resultData
+        }.flowOn(Dispatchers.IO)
     }
 
 

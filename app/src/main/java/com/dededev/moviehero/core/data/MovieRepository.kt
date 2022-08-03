@@ -1,7 +1,5 @@
 package com.dededev.moviehero.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.dededev.moviehero.core.data.source.local.LocalDataSource
 import com.dededev.moviehero.core.data.source.remote.RemoteDataSource
 import com.dededev.moviehero.core.data.source.remote.network.ApiResponse
@@ -10,6 +8,8 @@ import com.dededev.moviehero.core.domain.model.Movie
 import com.dededev.moviehero.core.domain.repository.IMovieRepository
 import com.dededev.moviehero.core.utils.AppExecutors
 import com.dededev.moviehero.core.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MovieRepository(
     private val remoteDataSource: RemoteDataSource,
@@ -29,47 +29,49 @@ class MovieRepository(
             }
     }
 
-    override fun getPopularMovies(): LiveData<Resource<List<Movie>>> =
+    override fun getPopularMovies(): Flow<Resource<List<Movie>>> =
         object : NetworkBoundResource<List<Movie>, List<ResultsItem>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<Movie>> {
-                return Transformations.map(localDataSource.getPopularMovies()) {
+            override fun loadFromDB(): Flow<List<Movie>> {
+                return localDataSource.getPopularMovies().map {
                     DataMapper.mapEntitiesToDomain(it)
                 }
             }
 
-            override fun shouldFetch(data: List<Movie>?): Boolean = true
+            override fun shouldFetch(data: List<Movie>?): Boolean =
+                data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<ResultsItem>>> =
+            override suspend fun createCall(): Flow<ApiResponse<List<ResultsItem>>> =
                 remoteDataSource.getPopularMovies()
 
-            override fun saveCallResult(data: List<ResultsItem>) {
+            override suspend fun saveCallResult(data: List<ResultsItem>) {
                 val movieList = DataMapper.mapResponsesToEntities(data)
                 localDataSource.insertPopularMovies(movieList)
             }
-        }.asLiveData()
+        }.asFlow()
 
-    override fun searchMovie(query: String): LiveData<Resource<List<Movie>>> =
+    override fun searchMovie(query: String): Flow<Resource<List<Movie>>> =
         object : NetworkBoundResource<List<Movie>, List<ResultsItem>>(appExecutors) {
-            override fun loadFromDB(): LiveData<List<Movie>> {
-                return Transformations.map(localDataSource.searchMovie(query)) {
+            override fun loadFromDB(): Flow<List<Movie>> {
+                return localDataSource.searchMovie(query).map {
                     DataMapper.mapSearchEntitiesToDomain(it)
                 }
             }
 
-            override fun shouldFetch(data: List<Movie>?): Boolean = true
+            override fun shouldFetch(data: List<Movie>?): Boolean =
+                data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<ResultsItem>>> =
+            override suspend fun createCall(): Flow<ApiResponse<List<ResultsItem>>> =
                 remoteDataSource.searchMovies(query)
 
-            override fun saveCallResult(data: List<ResultsItem>) {
+            override suspend fun saveCallResult(data: List<ResultsItem>) {
                 val movieList = DataMapper.mapResponsesToSearchedEntities(data)
                 localDataSource.insertSearchedMovies(movieList)
             }
 
-        }.asLiveData()
+        }.asFlow()
 
-    override fun getFavoriteMovies(): LiveData<List<Movie>> {
-        return Transformations.map(localDataSource.getFavoriteMovies()) {
+    override fun getFavoriteMovies(): Flow<List<Movie>> {
+        return localDataSource.getFavoriteMovies().map {
             DataMapper.mapEntitiesToDomain(it)
         }
     }

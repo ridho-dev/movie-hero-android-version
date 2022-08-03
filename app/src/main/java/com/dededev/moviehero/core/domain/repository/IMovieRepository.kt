@@ -1,15 +1,15 @@
 package com.dededev.moviehero.core.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.dededev.moviehero.core.data.Resource
 import com.dededev.moviehero.core.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository {
-    fun getPopularMovies(): LiveData<Resource<List<Movie>>>
+    fun getPopularMovies(): Flow<Resource<List<Movie>>>
 
-    fun searchMovie(query: String): LiveData<Resource<List<Movie>>>
+    fun searchMovie(query: String): Flow<Resource<List<Movie>>>
 
-    fun getFavoriteMovies(): LiveData<List<Movie>>
+    fun getFavoriteMovies(): Flow<List<Movie>>
 
     fun setFavoriteMovie(movie: Movie, newState: Boolean)
 
