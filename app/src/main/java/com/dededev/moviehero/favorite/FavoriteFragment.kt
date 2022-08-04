@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.core.ui.MovieAdapter
-import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentFavoriteBinding
 import com.dededev.moviehero.detail.DetailActivity
+import org.koin.android.ext.android.inject
 
 class FavoriteFragment : Fragment() {
 
     private var _binding: FragmentFavoriteBinding? = null
-
+    private val favoriteViewModel: FavoriteViewModel by inject()
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -39,9 +38,6 @@ class FavoriteFragment : Fragment() {
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
                 startActivity(intent)
             }
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            val favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
 
             favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner) { movie ->
                 movieAdapter.setData(movie)

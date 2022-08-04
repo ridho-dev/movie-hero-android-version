@@ -16,18 +16,6 @@ class MovieRepository(
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
 ): IMovieRepository {
-    companion object {
-        private var instance: MovieRepository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
-        ): MovieRepository =
-            instance ?: synchronized(this) {
-                instance ?: MovieRepository(remoteDataSource, localDataSource, appExecutors)
-            }
-    }
 
     override fun getPopularMovies(): Flow<Resource<List<Movie>>> =
         object : NetworkBoundResource<List<Movie>, List<ResultsItem>>() {

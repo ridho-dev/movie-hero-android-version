@@ -4,17 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dededev.moviehero.R
 import com.dededev.moviehero.core.domain.model.Movie
-import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.core.utils.Credentials
 import com.dededev.moviehero.databinding.ActivityDetailBinding
+import org.koin.android.ext.android.inject
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var detailViewModel: DetailViewModel
+    private val detailViewModel: DetailViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +22,6 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.detailToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val factory = ViewModelFactory.getInstance(this)
-        detailViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         val movie = intent.getParcelableExtra<Movie>(EXTRA_DATA)
         showSelectedMovie(movie)

@@ -7,17 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.R
 import com.dededev.moviehero.core.data.Resource
 import com.dededev.moviehero.core.ui.MovieAdapter
-import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentSearchBinding
 import com.dededev.moviehero.detail.DetailActivity
+import org.koin.android.ext.android.inject
 
 class SearchFragment : Fragment() {
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by inject()
     private lateinit var movieAdapter: MovieAdapter
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -41,9 +40,6 @@ class SearchFragment : Fragment() {
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
                 startActivity(intent)
             }
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            searchViewModel = ViewModelProvider(this, factory)[SearchViewModel::class.java]
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {

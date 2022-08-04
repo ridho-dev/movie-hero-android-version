@@ -6,21 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.R
 import com.dededev.moviehero.core.data.Resource
 import com.dededev.moviehero.core.ui.MovieAdapter
-import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentHomeBinding
 import com.dededev.moviehero.detail.DetailActivity
+import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +39,6 @@ class HomeFragment : Fragment() {
                 intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
                 startActivity(intent)
             }
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
             homeViewModel.getPopularMovies.observe(viewLifecycleOwner) { movie ->
                 if (movie != null) {

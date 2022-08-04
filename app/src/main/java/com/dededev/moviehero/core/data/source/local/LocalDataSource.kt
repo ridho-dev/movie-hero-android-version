@@ -6,14 +6,6 @@ import com.dededev.moviehero.core.data.source.local.room.MovieDao
 import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource(private val movieDao: MovieDao){
-    companion object {
-        private val instance: LocalDataSource? = null
-
-        fun getInstance(movieDao: MovieDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(movieDao)
-            }
-    }
 
     fun getPopularMovies(): Flow<List<MovieEntity>> = movieDao.getPopularMovies()
 
