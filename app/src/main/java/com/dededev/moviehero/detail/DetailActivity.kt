@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.dededev.moviehero.R
 import com.dededev.moviehero.core.domain.model.Movie
 import com.dededev.moviehero.core.ui.ViewModelFactory
+import com.dededev.moviehero.core.utils.Credentials
 import com.dededev.moviehero.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -31,7 +33,15 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showSelectedMovie(movie: Movie?) {
         movie?.let {
-            binding.tvDetailTitle.text = movie.title
+            binding.apply {
+                tvDetailTitle.text = movie.title
+                Glide.with(applicationContext)
+                    .load(Credentials.BASE_IMAGE_URL + movie.backdropPath)
+                    .into(ivDetailImage)
+                tvDetailOverview.text = movie.overview
+                tvDetailRelease.text = movie.releaseDate
+                tvDetailRating.text = movie.voteAverage.toString()
+            }
             var isFavorite = movie.isFavorite
             setStatusFavorite(isFavorite)
             binding.fab.setOnClickListener {
