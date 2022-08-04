@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.R
-import com.dededev.moviehero.core.data.Resource
-import com.dededev.moviehero.core.ui.MovieAdapter
+import com.dededev.core.data.Resource
+import com.dededev.core.ui.MovieAdapter
 import com.dededev.moviehero.databinding.FragmentHomeBinding
 import com.dededev.moviehero.detail.DetailActivity
 import org.koin.android.ext.android.inject

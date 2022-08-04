@@ -6,8 +6,8 @@ import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.dededev.moviehero.R
-import com.dededev.moviehero.core.domain.model.Movie
-import com.dededev.moviehero.core.utils.Credentials
+import com.dededev.core.domain.model.Movie
+import com.dededev.core.utils.Credentials
 import com.dededev.moviehero.databinding.ActivityDetailBinding
 import org.koin.android.ext.android.inject
 

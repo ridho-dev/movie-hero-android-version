@@ -1,9 +1,9 @@
 package com.dededev.moviehero
 
 import android.app.Application
-import com.dededev.moviehero.core.di.databaseModule
-import com.dededev.moviehero.core.di.networkModule
-import com.dededev.moviehero.core.di.repositoryModule
+import com.dededev.core.di.databaseModule
+import com.dededev.core.di.networkModule
+import com.dededev.core.di.repositoryModule
 import com.dededev.moviehero.di.useCaseModule
 import com.dededev.moviehero.di.viewModelModule
 import org.koin.android.ext.koin.androidContext

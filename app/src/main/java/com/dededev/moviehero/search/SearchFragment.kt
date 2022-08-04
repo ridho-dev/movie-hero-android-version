@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.R
-import com.dededev.moviehero.core.data.Resource
-import com.dededev.moviehero.core.ui.MovieAdapter
+import com.dededev.core.data.Resource
+import com.dededev.core.ui.MovieAdapter
 import com.dededev.moviehero.databinding.FragmentSearchBinding
 import com.dededev.moviehero.detail.DetailActivity
 import org.koin.android.ext.android.inject

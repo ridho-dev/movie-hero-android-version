@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dededev.moviehero.core.ui.MovieAdapter
+import com.dededev.core.ui.MovieAdapter
 import com.dededev.moviehero.databinding.FragmentFavoriteBinding
 import com.dededev.moviehero.detail.DetailActivity
 import org.koin.android.ext.android.inject
