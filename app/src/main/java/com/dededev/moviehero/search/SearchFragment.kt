@@ -1,13 +1,24 @@
 package com.dededev.moviehero.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dededev.moviehero.R
+import com.dededev.moviehero.core.data.Resource
+import com.dededev.moviehero.core.ui.MovieAdapter
+import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentSearchBinding
+import com.dededev.moviehero.detail.DetailActivity
 
 class SearchFragment : Fragment() {
+    private lateinit var searchViewModel: SearchViewModel
+    private lateinit var movieAdapter: MovieAdapter
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
@@ -18,6 +29,55 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (activity != null) {
+            val searchView = binding.searchView
+            movieAdapter = MovieAdapter()
+            movieAdapter.onItemClick = { selectedMovie ->
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_DATA, selectedMovie)
+                startActivity(intent)
+            }
+
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            searchViewModel = ViewModelProvider(this, factory)[SearchViewModel::class.java]
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query != null) {
+                        searchViewModel.searchMovies(query).observe(viewLifecycleOwner) { movie ->
+                            when (movie) {
+                                is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+                                is Resource.Success -> {
+                                    binding.progressBar.visibility = View.GONE
+                                    movieAdapter.setData(movie.data)
+                                }
+                                is Resource.Error -> {
+                                    binding.progressBar.visibility = View.GONE
+                                    binding.viewError.root.visibility = View.VISIBLE
+                                    binding.viewError.tvError.text =
+                                        movie.message ?: getString(R.string.something_wrong)
+                                }
+                            }
+                        }
+
+                        with(binding.rvMovie) {
+                            layoutManager = GridLayoutManager(context, 2)
+                            setHasFixedSize(true)
+                            adapter = movieAdapter
+                        }
+                    }
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+        }
     }
 
 }
