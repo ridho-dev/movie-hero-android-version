@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/navy_500"
-    android:layout_gravity="center_horizontal">
+    android:layout_gravity="center_horizontal"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="150dp"
@@ -36,21 +36,21 @@
             android:id="@+id/tv_movie_item_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorSecondaryVariant"
+            android:textColor="@color/gray"
             app:layout_constraintEnd_toEndOf="@+id/iv_movie_image"
             app:layout_constraintTop_toBottomOf="@+id/iv_movie_image" />
         <TextView
             android:id="@+id/tv_movie_item_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorSecondaryVariant"
+            android:textColor="@color/gray"
             app:layout_constraintStart_toStartOf="@+id/iv_movie_image"
             app:layout_constraintTop_toBottomOf="@+id/iv_movie_image" />
         <TextView
             android:id="@+id/tv_movie_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/iv_movie_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_movie_item_date" />

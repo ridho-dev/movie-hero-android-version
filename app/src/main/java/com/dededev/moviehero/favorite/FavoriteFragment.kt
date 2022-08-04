@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.moviehero.core.ui.MovieAdapter
 import com.dededev.moviehero.core.ui.ViewModelFactory
 import com.dededev.moviehero.databinding.FragmentFavoriteBinding
@@ -49,7 +49,7 @@ class FavoriteFragment : Fragment() {
             }
 
             with(binding.rvMovie) {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = GridLayoutManager(context, 2)
                 setHasFixedSize(true)
                 adapter = movieAdapter
             }

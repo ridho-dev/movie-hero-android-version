@@ -38,6 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/menu_favorite"
+        android:backgroundTint="@color/white"
+        app:tint="@color/red_500"
         app:layout_anchorGravity="bottom|end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
