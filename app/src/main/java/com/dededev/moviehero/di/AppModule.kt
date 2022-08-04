@@ -3,7 +3,6 @@ package com.dededev.moviehero.di
 import com.dededev.core.domain.usecase.MovieInteractor
 import com.dededev.core.domain.usecase.MovieUseCase
 import com.dededev.moviehero.detail.DetailViewModel
-import com.dededev.moviehero.favorite.FavoriteViewModel
 import com.dededev.moviehero.home.HomeViewModel
 import com.dededev.moviehero.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -16,6 +15,5 @@ val useCaseModule = module {
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { FavoriteViewModel(get()) }
     viewModel { DetailViewModel(get()) }
 }

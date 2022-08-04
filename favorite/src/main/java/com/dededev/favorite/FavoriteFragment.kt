@@ -1,4 +1,4 @@
-package com.dededev.moviehero.favorite
+package com.dededev.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dededev.core.ui.MovieAdapter
+import com.dededev.favorite.di.favoriteModule
 import com.dededev.moviehero.databinding.FragmentFavoriteBinding
 import com.dededev.moviehero.detail.DetailActivity
 import org.koin.android.ext.android.inject
+import org.koin.core.context.loadKoinModules
 
 class FavoriteFragment : Fragment() {
 
@@ -26,6 +28,7 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        loadKoinModules(favoriteModule)
         return binding.root
     }
 

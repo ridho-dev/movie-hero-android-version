@@ -1,4 +1,4 @@
-package com.dededev.moviehero.favorite
+package com.dededev.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
